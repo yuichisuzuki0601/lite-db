@@ -1,0 +1,13 @@
+{
+	"name" : "sample",
+	"columns" : [{
+		"name" : "id",
+		"type" : "INT(10) PRIMARY KEY NOT NULL"
+	}, {
+		"name" : "name",
+		"type" : "VARCHAR(128) NOT NULL"
+	}, {
+		"name" : "date",
+		"type" : "DATE NOT NULL"
+	}]
+}
