@@ -123,7 +123,7 @@ public class Table {
 	}
 
 	public List<Map<String, Object>> select() {
-		return select(null);
+		return select(new HashMap<>());
 	}
 
 	public List<Map<String, Object>> select(String column, Object value) {
@@ -136,12 +136,16 @@ public class Table {
 		StringBuilder sql = new StringBuilder(" select ")
 				.append(columns.stream().map(c -> c.getName()).reduce((s1, s2) -> s1 + ", " + s2).get())
 				.append(" from ").append(name);
-		if (cond != null) {
+		if (cond != null && !cond.isEmpty()) {
 			sql.append(" where ").append(cond.entrySet().stream().map(c -> c.getKey() + " = '" + c.getValue() + "' ")
 					.reduce((c1, c2) -> c1 + " AND " + c2).get());
 		}
 		sql.append(" order by 1 ");
-		return j.query(sql.toString(), new ColumnMapRowMapper());
+		return select(sql.toString());
+	}
+
+	public List<Map<String, Object>> select(String sql) {
+		return j.query(sql, new ColumnMapRowMapper());
 	}
 
 	public int update(Object key, String column, Object value) {
